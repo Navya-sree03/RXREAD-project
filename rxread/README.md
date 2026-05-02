@@ -1,8 +1,6 @@
 # RxRead — AI Prescription Reader
 ### CIP Project | 6th Semester | Dept. of CSE | SCSVMV
 
-**Team:**
-- Mirunalini A.R.A — 11239058
 - Navya Sree — 11239A063
 
 **Guide:** Dr. V. Geetha, Asst. Prof., Dept. of CSE, SCSVMV
