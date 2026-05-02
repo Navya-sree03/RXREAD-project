@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}Scan History{% endblock %}
+{% block content %}
+<div class="page-wrap">
+  <div class="container">
+    <div class="page-header">
+      <h1 data-en="Scan History" data-ta="ஸ்கேன் வரலாறு">Scan History</h1>
+      {% if not pro %}
+        <div class="history-limit-note">
+          <span data-en="Showing last 5 scans. " data-ta="கடைசி 5 ஸ்கேன்கள். ">Showing last 5 scans. </span>
+          <a href="{{ url_for('pricing') }}" data-en="Upgrade for unlimited →" data-ta="வரம்பற்றதற்கு மேம்படுத்து →">Upgrade for unlimited →</a>
+        </div>
+      {% endif %}
+    </div>
+
+    {% if scans %}
+      <div class="history-list">
+        {% for scan in scans %}
+          {% set data = scan.result_json | fromjson %}
+          <div class="history-item" onclick="window.location='{{ url_for('dashboard') }}?scan={{ scan.id }}'">
+            <div class="hi-icon">
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="3" y="2" width="16" height="18" rx="3" stroke="currentColor" stroke-width="1.3"/><path d="M7 8h8M7 11h8M7 14h5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+            </div>
+            <div class="hi-body">
+              <div class="hi-top">
+                <span class="hi-title">
+                  {% if data.doctor %}Dr. {{ data.doctor }}{% else %}<span data-en="Prescription" data-ta="மருத்துவச் சீட்டு">Prescription</span>{% endif %}
+                </span>
+                <span class="hi-date">{{ scan.created_at[:10] }}</span>
+              </div>
+              <div class="hi-meds">
+                {% if data.medicines %}
+                  {% for m in data.medicines[:3] %}
+                    <span class="hi-med-pill">{{ m.name }}</span>
+                  {% endfor %}
+                  {% if data.medicines|length > 3 %}
+                    <span class="hi-med-pill muted">+{{ data.medicines|length - 3 }} more</span>
+                  {% endif %}
+                {% endif %}
+              </div>
+            </div>
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 3l4 4-4 4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="empty-state">
+        <div class="empty-icon">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><rect x="8" y="6" width="32" height="36" rx="5" stroke="currentColor" stroke-width="1.5" opacity=".3"/><path d="M16 18h16M16 24h16M16 30h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity=".4"/></svg>
+        </div>
+        <h3 data-en="No scans yet" data-ta="இன்னும் ஸ்கேன் இல்லை">No scans yet</h3>
+        <p data-en="Upload your first prescription from the dashboard." data-ta="டாஷ்போர்டில் இருந்து உங்கள் முதல் மருத்துவச் சீட்டை பதிவேற்றவும்.">Upload your first prescription from the dashboard.</p>
+        <a href="{{ url_for('dashboard') }}" class="btn-primary" data-en="Go to Dashboard" data-ta="டாஷ்போர்டுக்கு செல்">Go to Dashboard</a>
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

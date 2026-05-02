@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}Profile{% endblock %}
+{% block content %}
+<div class="page-wrap">
+  <div class="container narrow">
+    <div class="page-header">
+      <h1 data-en="Profile &amp; Settings" data-ta="சுயவிவரம் &amp; அமைப்புகள்">Profile &amp; Settings</h1>
+    </div>
+
+    <div class="profile-card">
+      <div class="profile-avatar">{{ current_user.name[0].upper() }}</div>
+      <div class="profile-info">
+        <div class="profile-name">{{ current_user.name }}</div>
+        <div class="profile-email">{{ current_user.email }}</div>
+        <div class="profile-plan {% if pro %}pro{% endif %}">
+          {% if pro %}<span data-en="Pro Plan Active" data-ta="Pro திட்டம் செயலில்">Pro Plan Active</span>{% else %}<span data-en="Free Plan" data-ta="இலவச திட்டம்">Free Plan</span>{% endif %}
+        </div>
+      </div>
+      <div class="profile-stats">
+        <div class="pstat">
+          <span class="pstat-num">{{ scan_count }}</span>
+          <span class="pstat-label" data-en="Total scans" data-ta="மொத்த ஸ்கேன்கள்">Total scans</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="settings-card">
+      <h2 data-en="Edit Profile" data-ta="சுயவிவரத்தை திருத்து">Edit Profile</h2>
+      <form method="POST" class="settings-form">
+        <div class="form-group">
+          <label data-en="Display name" data-ta="காட்சி பெயர்">Display name</label>
+          <input type="text" name="name" value="{{ current_user.name }}" required/>
+        </div>
+        <div class="form-group">
+          <label data-en="Email address" data-ta="மின்னஞ்சல் முகவரி">Email address</label>
+          <input type="email" value="{{ current_user.email }}" disabled class="disabled-input"/>
+        </div>
+        <div class="form-group">
+          <label data-en="Preferred language" data-ta="விருப்பமான மொழி">Preferred language</label>
+          <select name="language">
+            <option value="en" {% if current_user.language=='en' %}selected{% endif %}>English</option>
+            <option value="ta" {% if current_user.language=='ta' %}selected{% endif %}>தமிழ் (Tamil)</option>
+          </select>
+        </div>
+        <button type="submit" class="btn-save" data-en="Save changes" data-ta="மாற்றங்களை சேமி">Save changes</button>
+      </form>
+    </div>
+
+    {% if not pro %}
+    <div class="upgrade-card-inline">
+      <div>
+        <h3 data-en="Upgrade to Pro" data-ta="Pro ஆக மேம்படுத்து">Upgrade to Pro</h3>
+        <p data-en="Side effects, drug interactions, AI chat — just ₹9/month." data-ta="பக்க விளைவுகள், மருந்து தொடர்புகள், AI அரட்டை — வெறும் ₹9/மாதம்.">Side effects, drug interactions, AI chat — just ₹9/month.</p>
+      </div>
+      <a href="{{ url_for('pricing') }}" class="btn-primary" data-en="Upgrade →" data-ta="மேம்படுத்து →">Upgrade →</a>
+    </div>
+    {% endif %}
+
+    <div class="danger-zone">
+      <a href="{{ url_for('logout') }}" class="btn-logout" data-en="Log out" data-ta="வெளியேறு">Log out</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

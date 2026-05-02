@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% block title %}Pricing{% endblock %}
+
+{% block content %}
+<div class="pricing-page">
+  <div class="container">
+    <div class="pricing-hero">
+      <h1 data-en="Simple, honest pricing" data-ta="எளிய, நேர்மையான விலை">Simple, honest pricing</h1>
+      <p data-en="Free forever for basic use. Unlock everything for less than a cup of chai." data-ta="அடிப்படை பயன்பாட்டிற்கு என்றும் இலவசம். ஒரு கப் சாயை விட குறைவான விலையில் அனைத்தையும் திறக்கலாம்.">Free forever for basic use. Unlock everything for less than a cup of chai.</p>
+    </div>
+
+    <div class="plans-grid">
+      <!-- Free -->
+      <div class="plan-card">
+        <div class="plan-top">
+          <div class="plan-name" data-en="Free" data-ta="இலவசம்">Free</div>
+          <div class="plan-price">₹0 <span data-en="/ month" data-ta="/ மாதம்">/ month</span></div>
+          <p class="plan-desc" data-en="Everything you need for basic prescription reading." data-ta="அடிப்படை மருத்துவச் சீட்டு வாசிப்பிற்கு தேவையானவை.">Everything you need for basic prescription reading.</p>
+        </div>
+        <ul class="plan-features">
+          <li class="yes" data-en="Prescription reading (unlimited)" data-ta="மருத்துவச் சீட்டு வாசிப்பு (வரம்பற்றது)">Prescription reading (unlimited)</li>
+          <li class="yes" data-en="Medicine info cards" data-ta="மருந்து தகவல் அட்டைகள்">Medicine info cards</li>
+          <li class="yes" data-en="Voice readout in Tamil &amp; English" data-ta="தமிழ் &amp; ஆங்கிலத்தில் குரல் வாசிப்பு">Voice readout in Tamil &amp; English</li>
+          <li class="yes" data-en="Language toggle" data-ta="மொழி மாற்றம்">Language toggle</li>
+          <li class="yes" data-en="Last 5 scans saved" data-ta="கடைசி 5 ஸ்கேன்கள் சேமிக்கப்பட்டன">Last 5 scans saved</li>
+          <li class="no" data-en="Side effects analysis" data-ta="பக்க விளைவுகள் பகுப்பாய்வு">Side effects analysis</li>
+          <li class="no" data-en="Drug interaction check" data-ta="மருந்து தொடர்பு சரிபார்ப்பு">Drug interaction check</li>
+          <li class="no" data-en="Ask AI about prescription" data-ta="மருத்துவச் சீட்டைப் பற்றி AI ஐ கேள்">Ask AI about prescription</li>
+        </ul>
+        {% if user %}
+          {% if not pro %}
+            <div class="plan-current" data-en="Your current plan" data-ta="உங்கள் தற்போதைய திட்டம்">Your current plan</div>
+          {% else %}
+            <a href="{{ url_for('dashboard') }}" class="btn-plan-ghost" data-en="Go to Dashboard" data-ta="டாஷ்போர்டுக்கு செல்">Go to Dashboard</a>
+          {% endif %}
+        {% else %}
+          <a href="{{ url_for('signup') }}" class="btn-plan-ghost" data-en="Get started free" data-ta="இலவசமாகத் தொடங்கு">Get started free</a>
+        {% endif %}
+      </div>
+
+      <!-- Pro -->
+      <div class="plan-card pro">
+        <div class="plan-badge" data-en="Most Popular" data-ta="மிகவும் பிரபலமானது">Most Popular</div>
+        <div class="plan-top">
+          <div class="plan-name">Pro ✦</div>
+          <div class="plan-price">₹9 <span data-en="/ month" data-ta="/ மாதம்">/ month</span></div>
+          <p class="plan-desc" data-en="Full power for patients who want to understand everything." data-ta="எல்லாவற்றையும் புரிந்துகொள்ள விரும்பும் நோயாளிகளுக்கு முழு சக்தி.">Full power for patients who want to understand everything.</p>
+        </div>
+        <ul class="plan-features">
+          <li class="yes" data-en="Everything in Free" data-ta="இலவசத்தில் உள்ள அனைத்தும்">Everything in Free</li>
+          <li class="yes" data-en="Unlimited scan history" data-ta="வரம்பற்ற ஸ்கேன் வரலாறு">Unlimited scan history</li>
+          <li class="yes" data-en="Side effects analysis" data-ta="பக்க விளைவுகள் பகுப்பாய்வு">Side effects analysis</li>
+          <li class="yes" data-en="Drug interaction check" data-ta="மருந்து தொடர்பு சரிபார்ப்பு">Drug interaction check</li>
+          <li class="yes" data-en="Ask AI about your prescription" data-ta="மருத்துவச் சீட்டைப் பற்றி AI ஐ கேள்">Ask AI about your prescription</li>
+        </ul>
+        {% if pro %}
+          <div class="plan-current active" data-en="✓ Active — Pro Plan" data-ta="✓ செயலில் — Pro திட்டம்">✓ Active — Pro Plan</div>
+        {% elif user %}
+          <button class="btn-plan-pro" id="payBtn"
+                  data-key="{{ razorpay_key }}"
+                  data-name="{{ current_user.name }}"
+                  data-email="{{ current_user.email }}"
+                  data-en="Upgrade to Pro — ₹9/mo" data-ta="Pro ஆக மேம்படு — ₹9/மாதம்">
+            Upgrade to Pro — ₹9/mo
+          </button>
+        {% else %}
+          <a href="{{ url_for('signup') }}" class="btn-plan-pro" data-en="Sign up &amp; Upgrade" data-ta="பதிவு செய்து மேம்படுத்து">Sign up &amp; Upgrade</a>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="pricing-footer-note">
+      <p data-en="Payments secured by Razorpay · UPI, cards, net banking accepted · Cancel anytime" data-ta="Razorpay மூலம் பாதுகாக்கப்பட்ட கட்டணங்கள் · UPI, கார்டுகள் ஏற்றுக்கொள்ளப்படும் · எப்போதும் ரத்து செய்யலாம்">Payments secured by Razorpay · UPI, cards, net banking accepted · Cancel anytime</p>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{% if user and not pro %}
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+const payBtn = document.getElementById('payBtn');
+if(payBtn){
+  payBtn.addEventListener('click', function(){
+    const options = {
+      key: payBtn.dataset.key,
+      amount: 900,
+      currency: 'INR',
+      name: 'RxRead',
+      description: 'Pro Plan — 1 Month',
+      prefill: { name: payBtn.dataset.name, email: payBtn.dataset.email },
+      theme: { color: '#1a6b3a' },
+      handler: function(response){
+        fetch('/api/payment-verify', {
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body: JSON.stringify({ razorpay_payment_id: response.razorpay_payment_id })
+        }).then(r => r.json()).then(d => {
+          if(d.success){ alert('🎉 Pro unlocked! Redirecting...'); window.location='/dashboard'; }
+        });
+      }
+    };
+    new Razorpay(options).open();
+  });
+}
+</script>
+{% endif %}
+{% endblock %}

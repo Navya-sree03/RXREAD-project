@@ -1,0 +1,127 @@
+{% set current_user = None %}
+{% extends "base.html" %}
+{% block title %}RxRead — Read Any Prescription Instantly{% endblock %}
+
+{% block content %}
+<section class="hero-section">
+  <div class="hero-bg-dots"></div>
+  <div class="container">
+    <div class="hero-pill" data-en="AI-Powered · Free to Start · Tamil &amp; English" data-ta="AI ஆற்றல் · இலவசமாகத் தொடங்கு · தமிழ் &amp; ஆங்கிலம்">AI-Powered · Free to Start · Tamil &amp; English</div>
+    <h1 class="hero-title" data-en="Can't read the<br>doctor's handwriting?" data-ta="மருத்துவரின் கையெழுத்து<br>படிக்கவே முடியவில்லையா?">Can't read the<br>doctor's handwriting?</h1>
+    <p class="hero-sub" data-en="Upload any prescription — handwritten or printed — and get a clear, structured breakdown of every medicine, dosage, and instruction. In seconds." data-ta="எந்த மருத்துவச் சீட்டையும் பதிவேற்றவும் — கையால் எழுதப்பட்டதோ அல்லது அச்சிடப்பட்டதோ — மற்றும் ஒவ்வொரு மருந்து, அளவு மற்றும் வழிமுறைகளின் தெளிவான விவரங்களைப் பெறவும். சில நொடிகளில்.">Upload any prescription — handwritten or printed — and get a clear, structured breakdown of every medicine, dosage, and instruction. In seconds.</p>
+    <div class="hero-actions">
+      <a href="{{ url_for('signup') }}" class="btn-hero" data-en="Start for free" data-ta="இலவசமாகத் தொடங்கு">Start for free</a>
+      <a href="{{ url_for('pricing') }}" class="btn-hero-ghost" data-en="See plans — ₹9/mo" data-ta="திட்டங்கள் காண — ₹9/மாதம்">See plans — ₹9/mo</a>
+    </div>
+    <div class="hero-note" data-en="No credit card needed · Works in Tamil &amp; English · Voice readout included" data-ta="கிரெடிட் கார்டு தேவையில்லை · தமிழ் &amp; ஆங்கிலத்தில் செயல்படுகிறது · குரல் வாசிப்பு உள்ளடங்கும்">No credit card needed · Works in Tamil &amp; English · Voice readout included</div>
+  </div>
+</section>
+
+<section class="how-section">
+  <div class="container">
+    <div class="section-tag" data-en="How it works" data-ta="எப்படி வேலை செய்கிறது">How it works</div>
+    <h2 class="section-title" data-en="Three steps to clarity" data-ta="தெளிவுக்கு மூன்று படிகள்">Three steps to clarity</h2>
+    <div class="steps-grid">
+      <div class="step-card" style="--delay:0s">
+        <div class="step-num">1</div>
+        <div class="step-icon">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect x="4" y="3" width="20" height="22" rx="3" stroke="currentColor" stroke-width="1.5"/><path d="M9 9h10M9 13h10M9 17h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <h3 data-en="Upload prescription" data-ta="மருத்துவச் சீட்டை பதிவேற்று">Upload prescription</h3>
+        <p data-en="Take a photo or upload from your gallery. JPG, PNG or WEBP." data-ta="புகைப்படம் எடுக்கவும் அல்லது உங்கள் கேலரியிலிருந்து பதிவேற்றவும்.">Take a photo or upload from your gallery. JPG, PNG or WEBP.</p>
+      </div>
+      <div class="step-card" style="--delay:0.1s">
+        <div class="step-num">2</div>
+        <div class="step-icon">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="10" stroke="currentColor" stroke-width="1.5"/><path d="M10 14l3 3 5-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3 data-en="AI reads it" data-ta="AI அதை படிக்கிறது">AI reads it</h3>
+        <p data-en="Claude AI analyses even the messiest handwriting and identifies every medicine." data-ta="Claude AI மிகவும் சிக்கலான கையெழுத்தையும் பகுப்பாய்வு செய்கிறது.">Claude AI analyses even the messiest handwriting and identifies every medicine.</p>
+      </div>
+      <div class="step-card" style="--delay:0.2s">
+        <div class="step-num">3</div>
+        <div class="step-icon">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M6 12h16M6 8h16M6 16h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M18 18l4 4M18 22l4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </div>
+        <h3 data-en="Get clear results" data-ta="தெளிவான முடிவுகளைப் பெறுங்கள்">Get clear results</h3>
+        <p data-en="See every medicine with dosage, timing, and purpose. Listen in Tamil or English." data-ta="ஒவ்வொரு மருந்தையும் அளவு மற்றும் நோக்கத்துடன் பாருங்கள்.">See every medicine with dosage, timing, and purpose. Listen in Tamil or English.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="features-section">
+  <div class="container">
+    <div class="section-tag" data-en="Features" data-ta="அம்சங்கள்">Features</div>
+    <h2 class="section-title" data-en="Everything you need" data-ta="உங்களுக்கு தேவையான அனைத்தும்">Everything you need</h2>
+    <div class="features-grid">
+      <div class="feat-card">
+        <div class="feat-icon green">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M3 3h10a4 4 0 010 8H6v5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 11l4 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity=".6"/></svg>
+        </div>
+        <h3 data-en="Smart prescription reading" data-ta="புத்திசாலி மருத்துவச் சீட்டு வாசிப்பு">Smart prescription reading</h3>
+        <p data-en="Extracts medicine names, dosage, frequency, duration, and special instructions from any handwriting." data-ta="எந்த கையெழுத்திலிருந்தும் மருந்துகளை பிரித்தெடுக்கிறது.">Extracts medicine names, dosage, frequency, duration, and special instructions from any handwriting.</p>
+        <span class="feat-badge free" data-en="Free" data-ta="இலவசம்">Free</span>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon teal">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 4a7 7 0 100 14A7 7 0 0011 4z" stroke="currentColor" stroke-width="1.5"/><path d="M8 11l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3 data-en="Medicine info cards" data-ta="மருந்து தகவல் அட்டைகள்">Medicine info cards</h3>
+        <p data-en="Understand what each medicine is for, its drug class, and brand names — in plain language." data-ta="ஒவ்வொரு மருந்தும் எதற்காக என்று எளிய மொழியில் புரிந்துகொள்ளுங்கள்.">Understand what each medicine is for in plain language.</p>
+        <span class="feat-badge free" data-en="Free" data-ta="இலவசம்">Free</span>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon amber">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 4v2M11 16v2M4 11H2M20 11h-2M6.3 6.3L5 5M17 17l-1.3-1.3M6.3 15.7L5 17M17 5l-1.3 1.3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="11" cy="11" r="4" stroke="currentColor" stroke-width="1.5"/></svg>
+        </div>
+        <h3 data-en="Voice readout" data-ta="குரல் வாசிப்பு">Voice readout</h3>
+        <p data-en="Hear the full results read aloud in Tamil or English. Perfect for elderly patients or those who struggle to read." data-ta="முழு முடிவுகளையும் தமிழ் அல்லது ஆங்கிலத்தில் சத்தமாக கேளுங்கள்.">Hear the full results read aloud in Tamil or English.</p>
+        <span class="feat-badge free" data-en="Free" data-ta="இலவசம்">Free</span>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon blue">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="8" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M5 19c0-3.31 2.69-6 6-6s6 2.69 6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <h3 data-en="Tamil &amp; English" data-ta="தமிழ் &amp; ஆங்கிலம்">Tamil &amp; English</h3>
+        <p data-en="Switch the entire app — UI and AI responses — between Tamil and English with one tap." data-ta="ஒரே தட்டுதலில் முழு பயன்பாட்டையும் மாற்றவும்.">Switch the entire app between Tamil and English with one tap.</p>
+        <span class="feat-badge free" data-en="Free" data-ta="இலவசம்">Free</span>
+      </div>
+      <div class="feat-card pro-feat">
+        <div class="feat-icon coral">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 3L3 8v11h16V8L11 3z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M9 14c.5-1.5 3.5-1.5 4 0" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><circle cx="8.5" cy="11.5" r=".8" fill="currentColor"/><circle cx="13.5" cy="11.5" r=".8" fill="currentColor"/></svg>
+        </div>
+        <h3 data-en="Side effects analysis" data-ta="பக்க விளைவுகள் பகுப்பாய்வு">Side effects analysis</h3>
+        <p data-en="Per-medicine side effects rated mild, moderate, or severe. Know what to watch for." data-ta="ஒவ்வொரு மருந்தின் பக்க விளைவுகளும் மிதமான, மிதமான அல்லது கடுமையான என மதிப்பீடு செய்யப்படும்.">Per-medicine side effects with severity ratings.</p>
+        <span class="feat-badge pro" data-en="Pro — ₹9/mo" data-ta="Pro — ₹9/மாதம்">Pro — ₹9/mo</span>
+      </div>
+      <div class="feat-card pro-feat">
+        <div class="feat-icon coral">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M7 11h8M11 7v8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="1.5"/></svg>
+        </div>
+        <h3 data-en="Drug interaction check" data-ta="மருந்து தொடர்பு சரிபார்ப்பு">Drug interaction check</h3>
+        <p data-en="Flags dangerous combinations between medicines in your prescription. Peace of mind guaranteed." data-ta="உங்கள் மருந்துகளுக்கிடையேயான ஆபத்தான கலவைகளை கண்டறியும்.">Flags dangerous combinations between medicines.</p>
+        <span class="feat-badge pro" data-en="Pro — ₹9/mo" data-ta="Pro — ₹9/மாதம்">Pro — ₹9/mo</span>
+      </div>
+      <div class="feat-card pro-feat">
+        <div class="feat-icon coral">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M4 17l4-4 3 3 7-8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3 data-en="Ask about your prescription" data-ta="உங்கள் மருத்துவச் சீட்டைப் பற்றி கேளுங்கள்">Ask about your prescription</h3>
+        <p data-en="Chat with AI — 'Can I take this with food?', 'What if I miss a dose?' — clear, simple answers." data-ta="AI உடன் அரட்டை — 'இதை உணவுடன் சாப்பிடலாமா?', 'ஒரு டோஸ் தவறினால்?'">Chat with AI about your specific prescription.</p>
+        <span class="feat-badge pro" data-en="Pro — ₹9/mo" data-ta="Pro — ₹9/மாதம்">Pro — ₹9/mo</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="container">
+    <div class="cta-card">
+      <h2 data-en="Start reading prescriptions today" data-ta="இன்றே மருத்துவச் சீட்டுகளை படிக்கத் தொடங்குங்கள்">Start reading prescriptions today</h2>
+      <p data-en="Free forever for basic use. Upgrade to Pro for just ₹9/month." data-ta="அடிப்படை பயன்பாட்டிற்கு என்றும் இலவசம். Pro க்கு வெறும் ₹9/மாதத்திற்கு மேம்படுத்தவும்.">Free forever for basic use. Upgrade to Pro for just ₹9/month.</p>
+      <a href="{{ url_for('signup') }}" class="btn-hero" data-en="Create free account" data-ta="இலவச கணக்கை உருவாக்கு">Create free account</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

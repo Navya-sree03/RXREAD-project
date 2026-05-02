@@ -1,0 +1,85 @@
+{% set current_user = None %}
+{% extends "base.html" %}
+{% block title %}{% if mode=='signup' %}Sign Up{% else %}Log In{% endif %}{% endblock %}
+
+{% block content %}
+<div class="auth-page">
+  <div class="auth-card">
+    <div class="auth-brand">
+      <div class="brand-icon lg">
+        <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+          <path d="M4 4h10a5 5 0 010 10H8v6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M13 14l5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" opacity=".6"/>
+        </svg>
+      </div>
+      <span class="brand-text lg">RxRead</span>
+    </div>
+
+    {% if mode == 'signup' %}
+      <h1 class="auth-title" data-en="Create your account" data-ta="உங்கள் கணக்கை உருவாக்கு">Create your account</h1>
+      <p class="auth-sub" data-en="Free to start. No credit card needed." data-ta="தொடங்க இலவசம். கிரெடிட் கார்டு தேவையில்லை.">Free to start. No credit card needed.</p>
+    {% else %}
+      <h1 class="auth-title" data-en="Welcome back" data-ta="மீண்டும் வரவேற்கிறோம்">Welcome back</h1>
+      <p class="auth-sub" data-en="Sign in to your RxRead account." data-ta="உங்கள் RxRead கணக்கில் உள்நுழைக.">Sign in to your RxRead account.</p>
+    {% endif %}
+
+    <form method="POST" class="auth-form">
+      {% if mode == 'signup' %}
+        <div class="form-group">
+          <label data-en="Your full name" data-ta="உங்கள் முழு பெயர்">Your full name</label>
+          <input type="text" name="name" placeholder="e.g. Priya Rajan" required autocomplete="name"/>
+        </div>
+      {% endif %}
+      <div class="form-group">
+        <label data-en="Email address" data-ta="மின்னஞ்சல் முகவரி">Email address</label>
+        <input type="email" name="email" placeholder="you@example.com" required autocomplete="email"/>
+      </div>
+      <div class="form-group">
+        <label data-en="Password" data-ta="கடவுச்சொல்">Password</label>
+        <div class="input-wrap">
+          <input type="password" name="password" id="passwordInput" placeholder="Min. 6 characters" required autocomplete="{% if mode=='signup' %}new-password{% else %}current-password{% endif %}"/>
+          <button type="button" class="toggle-pw" id="togglePw" tabindex="-1">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" id="eyeIcon"><path d="M1 8s2.5-5 7-5 7 5 7 5-2.5 5-7 5-7-5-7-5z" stroke="currentColor" stroke-width="1.2"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.2"/></svg>
+          </button>
+        </div>
+      </div>
+      {% if mode == 'signup' %}
+        <div class="form-group">
+          <label data-en="Preferred language" data-ta="விருப்பமான மொழி">Preferred language</label>
+          <select name="language">
+            <option value="en">English</option>
+            <option value="ta">தமிழ் (Tamil)</option>
+          </select>
+        </div>
+      {% endif %}
+
+      <button type="submit" class="btn-auth">
+        {% if mode == 'signup' %}
+          <span data-en="Create account" data-ta="கணக்கை உருவாக்கு">Create account</span>
+        {% else %}
+          <span data-en="Log in" data-ta="உள்நுழை">Log in</span>
+        {% endif %}
+      </button>
+    </form>
+
+    <div class="auth-switch">
+      {% if mode == 'signup' %}
+        <span data-en="Already have an account?" data-ta="ஏற்கனவே கணக்கு உள்ளதா?">Already have an account?</span>
+        <a href="{{ url_for('login') }}" data-en="Log in" data-ta="உள்நுழை">Log in</a>
+      {% else %}
+        <span data-en="Don't have an account?" data-ta="கணக்கு இல்லையா?">Don't have an account?</span>
+        <a href="{{ url_for('signup') }}" data-en="Sign up free" data-ta="இலவச பதிவு">Sign up free</a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.getElementById('togglePw').addEventListener('click', function(){
+  const inp = document.getElementById('passwordInput');
+  inp.type = inp.type === 'password' ? 'text' : 'password';
+});
+</script>
+{% endblock %}

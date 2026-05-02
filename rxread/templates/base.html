@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>{% block title %}RxRead{% endblock %} — AI Prescription Reader</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
+  {% block head %}{% endblock %}
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+  <div class="nav-inner">
+    <a href="{{ url_for('index') }}" class="nav-brand">
+      <div class="brand-icon">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <path d="M4 4h8a4 4 0 010 8H7v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M12 12l4 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" opacity=".6"/>
+        </svg>
+      </div>
+      <span class="brand-text">RxRead</span>
+    </a>
+
+    <div class="nav-center">
+      {% if current_user %}
+        <a href="{{ url_for('dashboard') }}" class="nav-link {% if request.endpoint=='dashboard' %}active{% endif %}" data-en="Dashboard" data-ta="முகப்பு">Dashboard</a>
+        <a href="{{ url_for('history') }}" class="nav-link {% if request.endpoint=='history' %}active{% endif %}" data-en="History" data-ta="வரலாறு">History</a>
+        <a href="{{ url_for('pricing') }}" class="nav-link {% if request.endpoint=='pricing' %}active{% endif %}" data-en="Pricing" data-ta="விலை">Pricing</a>
+      {% endif %}
+    </div>
+
+    <div class="nav-right">
+      <button class="lang-toggle" id="langToggle" title="Switch language">
+        <span class="lang-label">தமிழ்</span>
+      </button>
+      {% if current_user %}
+        <div class="nav-user-wrap">
+          <button class="nav-user-btn" id="userMenuBtn">
+            <div class="user-avatar">{{ current_user.name[0].upper() }}</div>
+            <span class="user-name-short">{{ current_user.name.split()[0] }}</span>
+            {% if current_user.plan == 'pro' %}<span class="pro-badge">PRO</span>{% endif %}
+          </button>
+          <div class="user-dropdown" id="userDropdown">
+            <div class="dropdown-header">
+              <div class="dropdown-name">{{ current_user.name }}</div>
+              <div class="dropdown-email">{{ current_user.email }}</div>
+            </div>
+            <a href="{{ url_for('profile') }}" class="dropdown-item" data-en="Profile &amp; Settings" data-ta="சுயவிவரம்">Profile &amp; Settings</a>
+            <a href="{{ url_for('pricing') }}" class="dropdown-item" data-en="Upgrade Plan" data-ta="திட்டம் மேம்படுத்து">Upgrade Plan</a>
+            <div class="dropdown-divider"></div>
+            <a href="{{ url_for('logout') }}" class="dropdown-item danger" data-en="Log out" data-ta="வெளியேறு">Log out</a>
+          </div>
+        </div>
+      {% else %}
+        <a href="{{ url_for('login') }}" class="btn-ghost" data-en="Log in" data-ta="உள்நுழை">Log in</a>
+        <a href="{{ url_for('signup') }}" class="btn-primary" data-en="Sign up free" data-ta="இலவச பதிவு">Sign up free</a>
+      {% endif %}
+    </div>
+
+    <button class="hamburger" id="hamburger">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <div class="mobile-menu" id="mobileMenu">
+    {% if current_user %}
+      <a href="{{ url_for('dashboard') }}" class="mob-link" data-en="Dashboard" data-ta="முகப்பு">Dashboard</a>
+      <a href="{{ url_for('history') }}" class="mob-link" data-en="History" data-ta="வரலாறு">History</a>
+      <a href="{{ url_for('pricing') }}" class="mob-link" data-en="Upgrade to Pro" data-ta="Pro ஆக மேம்படு">Upgrade to Pro</a>
+      <a href="{{ url_for('profile') }}" class="mob-link" data-en="Profile" data-ta="சுயவிவரம்">Profile</a>
+      <a href="{{ url_for('logout') }}" class="mob-link danger" data-en="Log out" data-ta="வெளியேறு">Log out</a>
+    {% else %}
+      <a href="{{ url_for('login') }}" class="mob-link" data-en="Log in" data-ta="உள்நுழை">Log in</a>
+      <a href="{{ url_for('signup') }}" class="mob-link" data-en="Sign up free" data-ta="இலவச பதிவு">Sign up free</a>
+    {% endif %}
+  </div>
+</nav>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div class="flash-wrap">
+      {% for cat, msg in messages %}
+        <div class="flash flash-{{ cat }}">{{ msg }}</div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+
+<main>{% block content %}{% endblock %}</main>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="brand-text">RxRead</span>
+      <span class="footer-tagline" data-en="AI Prescription Reader" data-ta="AI மருத்துவச் சீட்டு வாசிப்பான்">AI Prescription Reader</span>
+    </div>
+    <div class="footer-project">
+      <p>CIP Project — 6th Semester, Dept. of CSE, SCSVMV</p>
+      <p>Mirunalini A.R.A (11239058) &amp; Navya Sree (11239A063)</p>
+      <p>Under the guidance of Dr. V. Geetha, Asst. Prof., Dept. of CSE</p>
+    </div>
+    <p class="footer-disclaimer" data-en="For informational use only. Always consult your pharmacist or doctor." data-ta="தகவல் நோக்கங்களுக்கு மட்டுமே. எப்போதும் உங்கள் மருத்துவரை அணுகவும்.">For informational use only. Always consult your pharmacist or doctor.</p>
+  </div>
+</footer>
+
+<script src="{{ url_for('static', filename='js/lang.js') }}"></script>
+<script src="{{ url_for('static', filename='js/nav.js') }}"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

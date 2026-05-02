@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RxRead — Prescription Reader</title>
+  <link rel="stylesheet" href="/static/css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-inner">
+      <div class="nav-brand">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+          <rect width="28" height="28" rx="8" fill="#e8f5e9"/>
+          <path d="M7 7h8a5 5 0 010 10h-4v6" stroke="#2e7d32" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M15 17l5 6" stroke="#66bb6a" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+        <span class="brand-name">RxRead</span>
+      </div>
+      <span class="nav-tagline">AI Prescription Reader</span>
+    </div>
+  </nav>
+
+  <main class="main">
+    <div class="hero">
+      <h1 class="hero-title">Can't read the prescription?</h1>
+      <p class="hero-sub">Upload a photo of any doctor's prescription — handwritten or printed — and get a clear, structured breakdown of medicines and dosages in seconds.</p>
+    </div>
+
+    <div class="upload-section" id="uploadSection">
+      <div class="drop-zone" id="dropZone">
+        <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp" hidden />
+        <div class="drop-icon">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+            <rect x="8" y="6" width="32" height="36" rx="4" stroke="#b2dfdb" stroke-width="2"/>
+            <path d="M16 20h16M16 27h10" stroke="#b2dfdb" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="36" cy="36" r="8" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1.5"/>
+            <path d="M33 36h6M36 33v6" stroke="#2e7d32" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <p class="drop-title" id="dropTitle">Drop prescription image here</p>
+        <p class="drop-hint">JPG, PNG or WEBP &nbsp;·&nbsp; Max 10MB</p>
+        <button class="browse-btn" id="browseBtn">Browse file</button>
+      </div>
+
+      <div class="preview-wrap" id="previewWrap">
+        <img id="previewImg" alt="Prescription preview" />
+        <button class="change-btn" id="changeBtn">Change image</button>
+      </div>
+
+      <button class="analyse-btn" id="analyseBtn" disabled>
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <circle cx="9" cy="9" r="7" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M6 9h6M9 6v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        Analyse Prescription
+      </button>
+
+      <div class="status-bar" id="statusBar">
+        <div class="spinner"></div>
+        <span id="statusText">Reading prescription...</span>
+      </div>
+
+      <div class="error-box" id="errorBox"></div>
+    </div>
+
+    <div class="results-section" id="resultsSection"></div>
+
+    <div class="how-it-works">
+      <h2 class="section-title">How it works</h2>
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-num">1</div>
+          <h3>Upload</h3>
+          <p>Take a photo of your prescription or upload an existing image from your device.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">2</div>
+          <h3>AI reads it</h3>
+          <p>Our AI analyses the handwriting and identifies each medicine, dosage, and instruction.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">3</div>
+          <h3>Get clarity</h3>
+          <p>You receive a clean, easy-to-read breakdown you can actually understand.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>RxRead &nbsp;·&nbsp; For informational use only &nbsp;·&nbsp; Always consult your pharmacist or doctor before taking medication.</p>
+    <p class="footer-college">CIP Project &nbsp;·&nbsp; 6th Semester &nbsp;·&nbsp; Built with Flask + Claude AI</p>
+  </footer>
+
+  <script src="/static/js/main.js"></script>
+</body>
+</html>

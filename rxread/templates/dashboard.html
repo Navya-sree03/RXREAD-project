@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="dashboard-page">
+  <div class="container">
+
+    <!-- Welcome bar -->
+    <div class="dash-welcome">
+      <div>
+        <h1 class="dash-greeting">
+          <span data-en="Hello," data-ta="வணக்கம்,">Hello,</span> {{ current_user.name.split()[0] }} 👋
+        </h1>
+        <p class="dash-sub" data-en="Upload a prescription to get started." data-ta="தொடங்க ஒரு மருத்துவச் சீட்டை பதிவேற்றவும்.">Upload a prescription to get started.</p>
+      </div>
+      <div class="dash-badges">
+        {% if pro %}
+          <div class="plan-chip pro" data-en="Pro Plan Active" data-ta="Pro திட்டம் செயலில்">Pro Plan Active</div>
+        {% else %}
+          <div class="plan-chip free">
+            <span data-en="Free Plan" data-ta="இலவச திட்டம்">Free Plan</span>
+            <a href="{{ url_for('pricing') }}" class="upgrade-link" data-en="Upgrade →" data-ta="மேம்படுத்து →">Upgrade →</a>
+          </div>
+        {% endif %}
+        <div class="scans-chip">
+          <span class="scans-num">{{ scan_count }}</span>
+          <span data-en="scans done" data-ta="ஸ்கேன்கள் முடிந்தன">scans done</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Upload zone -->
+    <div class="upload-card" id="uploadCard">
+      <div class="upload-zone" id="dropZone">
+        <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp" hidden/>
+        <div class="upload-icon-wrap">
+          <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
+            <rect x="6" y="4" width="32" height="36" rx="5" stroke="currentColor" stroke-width="1.5" opacity=".3"/>
+            <path d="M14 18h16M14 24h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity=".4"/>
+            <circle cx="33" cy="33" r="9" fill="var(--green)" opacity=".15"/>
+            <path d="M30 33h6M33 30v6" stroke="var(--green)" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <p class="upload-title" id="dropTitle" data-en="Drop prescription here or tap to browse" data-ta="இங்கே மருத்துவச் சீட்டை இழுக்கவும் அல்லது தேர்வு செய்ய தட்டவும்">Drop prescription here or tap to browse</p>
+        <p class="upload-hint" data-en="JPG, PNG or WEBP · Max 10MB" data-ta="JPG, PNG அல்லது WEBP · அதிகபட்சம் 10MB">JPG, PNG or WEBP · Max 10MB</p>
+        <button class="btn-browse" id="browseBtn" data-en="Browse file" data-ta="கோப்பை தேர்வு செய்">Browse file</button>
+      </div>
+
+      <div class="preview-area" id="previewArea" style="display:none">
+        <img id="previewImg" alt="Prescription preview"/>
+        <button class="btn-change" id="changeBtn" data-en="Change image" data-ta="படத்தை மாற்று">Change image</button>
+      </div>
+
+      <div class="upload-actions" id="uploadActions" style="display:none">
+        <div class="lang-select-wrap">
+          <label data-en="Analyse in:" data-ta="பகுப்பாய்வு மொழி:">Analyse in:</label>
+          <div class="lang-pills">
+            <button class="lang-pill active" id="langEn" data-lang="en" onclick="setAnalyseLang('en')">English</button>
+            <button class="lang-pill" id="langTa" data-lang="ta" onclick="setAnalyseLang('ta')">தமிழ்</button>
+          </div>
+        </div>
+        <button class="btn-analyse" id="analyseBtn">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 3h7a5 5 0 010 10H6v2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M11 13l3 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <span data-en="Analyse Prescription" data-ta="மருத்துவச் சீட்டை பகுப்பாய்">Analyse Prescription</span>
+        </button>
+      </div>
+
+      <div class="status-bar" id="statusBar" style="display:none">
+        <div class="spinner"></div>
+        <span id="statusText" data-en="Reading prescription..." data-ta="மருத்துவச் சீட்டை படிக்கிறோம்...">Reading prescription...</span>
+      </div>
+      <div class="error-bar" id="errorBar" style="display:none"></div>
+    </div>
+
+    <!-- Results section -->
+    <div id="resultsSection" style="display:none">
+
+      <!-- Basic results -->
+      <div class="results-header">
+        <h2 data-en="Prescription Breakdown" data-ta="மருத்துவச் சீட்டு விவரம்">Prescription Breakdown</h2>
+        <div class="results-actions">
+          <button class="btn-voice" id="voiceBtn" onclick="startVoice()">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1a3 3 0 013 3v4a3 3 0 01-6 0V4a3 3 0 013-3z" stroke="currentColor" stroke-width="1.3"/><path d="M3 7a5 5 0 0010 0M8 13v2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+            <span data-en="Read aloud" data-ta="சத்தமாக படி">Read aloud</span>
+          </button>
+          <button class="btn-new" onclick="resetScan()">
+            <span data-en="New scan" data-ta="புதிய ஸ்கேன்">New scan</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="meta-strip" id="metaStrip"></div>
+      <div class="meds-grid" id="medsGrid"></div>
+
+      <!-- Pro features panel -->
+      <div class="pro-panel">
+        <div class="pro-tabs" id="proTabs">
+          {% if pro %}
+            <button class="pro-tab active" onclick="showProTab('side-effects')" data-en="Side Effects" data-ta="பக்க விளைவுகள்">Side Effects</button>
+            <button class="pro-tab" onclick="showProTab('interactions')" data-en="Drug Interactions" data-ta="மருந்து தொடர்புகள்">Drug Interactions</button>
+            <button class="pro-tab" onclick="showProTab('ask')" data-en="Ask AI" data-ta="AI ஐ கேள்">Ask AI</button>
+          {% else %}
+            <button class="pro-tab locked" onclick="showUpgradePrompt()" data-en="Side Effects 🔒" data-ta="பக்க விளைவுகள் 🔒">Side Effects 🔒</button>
+            <button class="pro-tab locked" onclick="showUpgradePrompt()" data-en="Drug Interactions 🔒" data-ta="மருந்து தொடர்புகள் 🔒">Drug Interactions 🔒</button>
+            <button class="pro-tab locked" onclick="showUpgradePrompt()" data-en="Ask AI 🔒" data-ta="AI ஐ கேள் 🔒">Ask AI 🔒</button>
+          {% endif %}
+        </div>
+
+        <div class="pro-content" id="proContent">
+          {% if not pro %}
+            <div class="upgrade-prompt" id="upgradePrompt">
+              <div class="up-icon">✦</div>
+              <h3 data-en="Unlock Pro Features" data-ta="Pro அம்சங்களை திறக்கவும்">Unlock Pro Features</h3>
+              <p data-en="Get side effects analysis, drug interaction checks, and AI chat for just ₹9/month." data-ta="வெறும் ₹9/மாதத்திற்கு பக்க விளைவுகள், மருந்து தொடர்புகள் மற்றும் AI அரட்டையைப் பெறுங்கள்.">Get side effects, drug interactions, and AI chat for just ₹9/month.</p>
+              <a href="{{ url_for('pricing') }}" class="btn-upgrade-big" data-en="Upgrade to Pro — ₹9/mo" data-ta="Pro ஆக மேம்படு — ₹9/மாதம்">Upgrade to Pro — ₹9/mo</a>
+            </div>
+          {% else %}
+            <div id="sideEffectsPanel" class="pro-tab-panel active"></div>
+            <div id="interactionsPanel" class="pro-tab-panel" style="display:none"></div>
+            <div id="askPanel" class="pro-tab-panel" style="display:none">
+              <div class="ask-box">
+                <div class="ask-messages" id="askMessages">
+                  <div class="ask-hint" data-en="Ask anything about your prescription — dosage, timing, food interactions, missed doses..." data-ta="உங்கள் மருத்துவச் சீட்டைப் பற்றி எதையும் கேளுங்கள்...">Ask anything about your prescription — dosage, timing, food interactions, missed doses...</div>
+                </div>
+                <div class="ask-input-row">
+                  <input type="text" id="askInput" placeholder="Type your question..." data-en-placeholder="Type your question..." data-ta-placeholder="உங்கள் கேள்வியை தட்டச்சு செய்யுங்கள்..."/>
+                  <button class="btn-ask" id="askBtn" onclick="sendAsk()">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 8l12-6-6 12-2-4-4-2z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" fill="none"/></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent scans -->
+    {% if recent %}
+    <div class="recent-section">
+      <h2 class="section-sub-title" data-en="Recent scans" data-ta="சமீபத்திய ஸ்கேன்கள்">Recent scans</h2>
+      <div class="recent-grid">
+        {% for scan in recent %}
+        <div class="recent-card" onclick="loadScan({{ scan.id }})">
+          <div class="recent-icon">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="3" y="2" width="14" height="16" rx="3" stroke="currentColor" stroke-width="1.3"/><path d="M7 7h6M7 10h6M7 13h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+          </div>
+          <div class="recent-info">
+            <div class="recent-date">{{ scan.created_at[:10] }}</div>
+            <div class="recent-preview">
+              {% set d = scan.result_json | tojson %}
+              <span data-en="Tap to view" data-ta="பார்க்க தட்டவும்">Tap to view</span>
+            </div>
+          </div>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" class="recent-arrow"><path d="M5 3l4 4-4 4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+  </div>
+</div>
+
+<!-- Voice stop bar -->
+<div class="voice-bar" id="voiceBar" style="display:none">
+  <div class="voice-anim">
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+  <span id="voiceBarText" data-en="Reading aloud..." data-ta="சத்தமாக படிக்கிறது...">Reading aloud...</span>
+  <button onclick="stopVoice()" data-en="Stop" data-ta="நிறுத்து">Stop</button>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+const IS_PRO = {{ 'true' if pro else 'false' }};
+const USER_LANG = "{{ current_user.language or 'en' }}";
+</script>
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+{% endblock %}
